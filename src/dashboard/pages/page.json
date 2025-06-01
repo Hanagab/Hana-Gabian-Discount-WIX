@@ -1,0 +1,5 @@
+{
+  "$schema": "https://dev.wix.com/wix-cli/schemas/dashboard-page.json",
+  "id": "2dbb2914-e47c-4a7b-b94e-e938100b51fe",
+  "title": "Discount App"
+}
