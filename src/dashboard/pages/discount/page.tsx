@@ -12,14 +12,18 @@ import {
 import "@wix/design-system/styles.global.css";
 import { applyDiscountToProduct } from "../../plugins/my-plugin/utils";
 import { useProducts } from "../../plugins/my-plugin/useProducts";
-import { Discount } from "@wix/wix-ui-icons-common";
 import { dashboard } from "@wix/dashboard";
 
 const DashboardPage: FC = () => {
+  // Custom hook that fetches products from the store
   const { products, isLoading, error } = useProducts();
+  // Discount percentage entered by the admin
   const [discountPercentage, setDiscountPercentage] = useState<string>("");
+  // Indicates whether a discount operation is in progress
   const [isApplyingDiscount, setIsApplyingDiscount] = useState(false);
+  // Index of the current product being shown from the non-discounted list
   const [productIndex, setProductIndex] = useState(0);
+  // Flag to indicate when there are no more eligible products
   const [noProductsLeft, setNoProductsLeft] = useState(false);
 
 
@@ -34,6 +38,7 @@ const DashboardPage: FC = () => {
     }
   }, [error]);
 
+  // Filter out products that already have a discount and sort by price descending
  const nonDiscountProducts = useMemo(() => {
   if (!products || products.length === 0) return [];
   return products
@@ -51,12 +56,15 @@ const DashboardPage: FC = () => {
     );
 }, [products]);
 
+// Select the current most expensive product without a discount
 const mostExpensiveNonDiscountProduct = nonDiscountProducts[productIndex];
 
 
+// Apply the entered discount to the current product
   const applyDiscount = async () => {
     if (!mostExpensiveNonDiscountProduct) return;
     if (isApplyingDiscount) return;
+    // Validate discount percentage (must be between 1 and 100)
     const percentage = parseFloat(discountPercentage);
     if (isNaN(percentage) || percentage <= 0 || percentage > 100) {
       dashboard.showToast({
@@ -67,6 +75,7 @@ const mostExpensiveNonDiscountProduct = nonDiscountProducts[productIndex];
       return;
     }
 
+    // Make sure the product has a valid ID before updating
    const product = mostExpensiveNonDiscountProduct;
 
     if (!product || !product._id) {
@@ -80,12 +89,14 @@ const mostExpensiveNonDiscountProduct = nonDiscountProducts[productIndex];
 
     setIsApplyingDiscount(true);
     try {
+      // Apply discount using utility function
       await applyDiscountToProduct(
   product._id,
   percentage,
   product.priceData?.price || 0
 );
 
+// Show success message
 dashboard.showToast({
   message: `Successfully applied ${percentage}% discount to ${product.name}`,
   type: "success",
@@ -94,6 +105,7 @@ dashboard.showToast({
 
 setDiscountPercentage("");
 
+// Move to next product, or show a message if none left
 if (productIndex + 1 < nonDiscountProducts.length) {
   setProductIndex(productIndex + 1);
 } else {
@@ -227,6 +239,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
 
                           return (
                             <>
+                            // Show additional product details if available
                               {product.description && (
                                 <Box gap="SP2" direction="vertical">
                                   <Text weight="bold">Description:</Text>
@@ -237,6 +250,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                               )}
 
                               {product.stock && (
+                                 // Show stock status
                                 <Box
                                   gap="SP2"
                                   direction="horizontal"
@@ -261,6 +275,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                               )}
 
                               {product.ribbon && (
+                                 // Show product ribbon label
                                 <Box
                                   gap="SP2"
                                   direction="horizontal"
@@ -272,6 +287,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                               )}
 
                               {product.brand && (
+                                // Show product brand name
                                 <Box
                                   gap="SP2"
                                   direction="horizontal"
@@ -295,6 +311,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                           <Text weight="bold" size="medium">
                             Set a discount:
                           </Text>
+                          // Discount input field and Apply Discount button
                           <Input
                             placeholder="Enter discount percentage"
                             value={discountPercentage}

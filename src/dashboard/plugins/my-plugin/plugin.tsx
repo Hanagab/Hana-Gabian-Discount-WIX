@@ -1,9 +1,6 @@
 import React, { useMemo, type FC } from "react";
 import type { plugins } from "@wix/stores/dashboard";
-
 import { useProducts } from "./useProducts";
-
-import { Discount } from "@wix/wix-ui-icons-common";
 import {
   WixDesignSystemProvider,
   Card,
@@ -18,9 +15,11 @@ import { dashboard } from "@wix/dashboard";
 
 type Props = plugins.Products.ProductsBannerParams;
 
+// Get products from store using custom hook
 const Plugin: FC<Props> = () => {
   const { products, isLoading, error } = useProducts();
 
+   // Calculate the most expensive product without a discount
   const [
     mostExpensiveNonDiscountProductName,
     mostExpensiveNonDiscountProductPrice,
@@ -40,6 +39,7 @@ const Plugin: FC<Props> = () => {
 
     if (nonDiscountProducts.length === 0) return [null, null, null];
 
+    // Find the most expensive product from the filtered list
     const mostExpensiveNonDiscountProduct = nonDiscountProducts.reduce(
       (max, product) =>
         (product.priceData?.price || 0) > (max.priceData?.price || 0)
@@ -47,6 +47,7 @@ const Plugin: FC<Props> = () => {
           : max
     );
 
+    // Return relevant fields for display
     return [
       mostExpensiveNonDiscountProduct.name,
       mostExpensiveNonDiscountProduct.priceData?.price || 0,
@@ -54,6 +55,7 @@ const Plugin: FC<Props> = () => {
     ];
   }, [products]);
 
+   // Navigate to the custom Discount Page when the button is clicked
   const navigateToDiscountPage = () => {
     dashboard.navigate({
       pageId: "5abea501-3012-4331-a60c-f94d3914facf",
