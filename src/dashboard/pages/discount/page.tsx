@@ -194,7 +194,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                         verticalAlign="middle"
                       >
                         <Text weight="bold" size="medium">
-                          Most Expensive Non-Discount Product
+                          Let’s Make Your Priciest Product Pop!
                         </Text>
                       </Box>
 
@@ -233,30 +233,6 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                                   <Text size="small" secondary>
                                     {product.description}
                                   </Text>
-                                </Box>
-                              )}
-
-                              {product.productType && (
-                                <Box
-                                  gap="SP2"
-                                  direction="horizontal"
-                                  verticalAlign="middle"
-                                >
-                                  <Text weight="bold">Type:</Text>
-                                  <Text size="small">
-                                    {product.productType}
-                                  </Text>
-                                </Box>
-                              )}
-
-                              {product.sku && (
-                                <Box
-                                  gap="SP2"
-                                  direction="horizontal"
-                                  verticalAlign="middle"
-                                >
-                                  <Text weight="bold">SKU:</Text>
-                                  <Text size="small">{product.sku}</Text>
                                 </Box>
                               )}
 
@@ -317,7 +293,7 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                           }}
                         >
                           <Text weight="bold" size="medium">
-                            Apply Discount %
+                            Set a discount:
                           </Text>
                           <Input
                             placeholder="Enter discount percentage"
@@ -347,7 +323,6 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                                 <Loader size="tiny" color={"blue"} />
                               ) : (
                                 <>
-                                  <Discount />
                                   Apply Discount
                                 </>
                               )}

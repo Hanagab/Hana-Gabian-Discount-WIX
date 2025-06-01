@@ -89,15 +89,14 @@ const Plugin: FC<Props> = () => {
                     fit="cover"
                   />
                 )}
-                <Text weight="bold">Most Expensive Non-Discount Product:</Text>
+                <Text weight="bold">Top-priced item on your shelf:</Text>
                 <Text>
                   {mostExpensiveNonDiscountProductName}
                   {" - $"}
                   {mostExpensiveNonDiscountProductPrice}
                 </Text>
                 <Button onClick={navigateToDiscountPage} color={"white"}>
-                  <Discount />
-                  Apply Discount
+                  Apply Discount Now
                 </Button>
               </Box>
             )}
