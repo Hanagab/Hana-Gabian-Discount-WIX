@@ -239,7 +239,6 @@ if (productIndex + 1 < nonDiscountProducts.length) {
 
                           return (
                             <>
-                            // Show additional product details if available
                               {product.description && (
                                 <Box gap="SP2" direction="vertical">
                                   <Text weight="bold">Description:</Text>
@@ -311,7 +310,6 @@ if (productIndex + 1 < nonDiscountProducts.length) {
                           <Text weight="bold" size="medium">
                             Set a discount:
                           </Text>
-                          // Discount input field and Apply Discount button
                           <Input
                             placeholder="Enter discount percentage"
                             value={discountPercentage}
